@@ -1,0 +1,26 @@
+[case testIterator]
+# flags: --python-version 3.10
+from typing import Iterator
+from typing import Iterable
+from typing import TypeVar
+
+E = TypeVar("E")
+T = TypeVar("T")
+def next(x: Iterable[T], default: E) -> T | E: ...
+
+def this_fails(numbers: Iterator[int]) -> int:
+  return next(numbers, None) or 0
+  
+def intermediate_is_ok(numbers: Iterator[int]) -> int:
+  my_number = next(numbers, None) or 0
+  return my_number
+
+def separate_line_is_ok(numbers: Iterator[int]) -> int:
+  result = next(numbers, None)
+  return result or 0
+  
+def using_default_directly_is_ok(numbers: Iterator[int]) -> int:
+  return next(numbers, 0)
+
+def having_optional_int_with_or_is_ok(number_maybe: int | None) -> int:
+  return number_maybe or 0
